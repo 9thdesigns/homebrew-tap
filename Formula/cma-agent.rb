@@ -1,9 +1,17 @@
+# Formula template for the companion. bin/release-agent fills the three
+# placeholders and commits the result into the tap repository — do not edit the
+# copy that ends up in the tap, edit this one and re-release.
+#
+# The companion is plain ESM with no dependencies, so there is nothing to build:
+# the whole package goes into libexec and the executable is symlinked onto the
+# PATH. Node resolves a symlinked entry point against its real path, so
+# `../src/*.js` still lands inside libexec.
 class CmaAgent < Formula
   desc "Run Configure My AI work on your own machine with your own Claude Code login"
   homepage "https://configuremyai.com"
-  url "https://github.com/9thdesigns/cma-agent/archive/9d96422ee0046ae13067523c5c41f0b22cb4d08f.tar.gz"
-  sha256 "a4c6fd5a116649aed3878e93ca1fea6b5a49845e2e0bcc515295261eebdfdbab"
-  version "0.1.0"
+  url "https://github.com/9thdesigns/cma-agent/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "56e1cca3770ee8e95eefd64ef5b10bd5ff1f3cfdcb21f4aa385f7fd7af771b5b"
+  version "0.1.1"
   license :cannot_represent
 
   depends_on "node"
