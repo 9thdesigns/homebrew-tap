@@ -9,9 +9,9 @@
 class CmaAgent < Formula
   desc "Run Configure My AI work on your own machine with your own Claude Code login"
   homepage "https://configuremyai.com"
-  url "https://github.com/9thdesigns/cma-agent/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "278ab4f8bdc478529619bc09bd196b5e77c155823b954ebef5d2ccb3bba5ba53"
-  version "0.1.2"
+  url "https://github.com/9thdesigns/cma-agent/archive/refs/tags/v0.3.0.tar.gz"
+  sha256 "c978196cc30526739d353e604622cc961adca42a38c978227b935c447b633421"
+  version "0.3.0"
   license :cannot_represent
 
   depends_on "node"
@@ -34,6 +34,14 @@ class CmaAgent < Formula
 
       The pairing code comes from Devices in Configure My AI. Your Claude login
       is never sent anywhere — Claude Code reads it from your keychain locally.
+
+      To work against repositories already on this Mac, share a folder — until
+      you do, none are visible to the web app:
+
+        cma-agent repos:add ~/code
+
+      That uses the `git` you already have (Xcode Command Line Tools, or
+      `brew install git`), with the credentials it is already configured with.
     EOS
   end
 
