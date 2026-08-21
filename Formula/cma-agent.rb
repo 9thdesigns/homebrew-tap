@@ -9,9 +9,9 @@
 class CmaAgent < Formula
   desc "Run Configure My AI work on your own machine with your own Claude Code login"
   homepage "https://configuremyai.com"
-  url "https://github.com/9thdesigns/cma-agent/archive/refs/tags/v0.11.0.tar.gz"
-  sha256 "ea751188a0d568597553c371659abf702601249a5347e39078dc38239024c16a"
-  version "0.11.0"
+  url "https://github.com/9thdesigns/cma-agent/archive/refs/tags/v0.11.1.tar.gz"
+  sha256 "d951fffee66a578fc058ee663199de783fc5546bd389d221570fbafccfa657d4"
+  version "0.11.1"
   license :cannot_represent
 
   depends_on "node"
