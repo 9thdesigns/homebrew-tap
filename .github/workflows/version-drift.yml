@@ -1,0 +1,32 @@
+name: version-drift
+# Fails when the formula pins a cma-agent version that is not the latest
+# cma-agent release tag, or when the pinned tarball's sha256 doesn't match.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare formula with latest cma-agent tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          f=Formula/cma-agent.rb
+          pinned=$(sed -nE 's/^ *version "([^"]+)".*/\1/p' "$f")
+          url=$(sed -nE 's/^ *url "([^"]+)".*/\1/p' "$f")
+          sha=$(sed -nE 's/^ *sha256 "([^"]+)".*/\1/p' "$f")
+          echo "$url" | grep -q "v${pinned}.tar.gz" || { echo "::error::url does not match version $pinned"; exit 1; }
+          latest=$(gh api repos/9thdesigns/cma-agent/tags --jq '[.[].name|select(test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))|ltrimstr("v")]|sort_by(split(".")|map(tonumber))|last')
+          echo "pinned=$pinned latest=$latest"
+          [ "$pinned" = "$latest" ] || { echo "::error::Formula pins $pinned but cma-agent latest tag is $latest"; exit 1; }
+          actual=$(curl -fsSL "$url" | sha256sum | cut -d' ' -f1)
+          [ "$actual" = "$sha" ] || { echo "::error::sha256 mismatch: formula $sha, tarball $actual"; exit 1; }
